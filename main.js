@@ -10,7 +10,7 @@ if (process.argv.length < 3) {
 var AnalysisManager = require('./src/AnalysisManager.js');
 var analysisManager = new AnalysisManager();
 
-var gpxfile = process.argv[2];
+var gpxfile = process.argv[process.argv.length - 1];
 analysisManager.analyse(gpxfile);
 
 function usage() {
