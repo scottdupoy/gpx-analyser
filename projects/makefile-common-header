@@ -1,0 +1,7 @@
+CXX = g++
+CPPFLAGS = -std=c++1y -MMD
+LFLAGS := 
+OBJ_DIR = obj
+BIN_DIR = bin
+SRC_DIR = src
+INCLUDE_DIR = include
