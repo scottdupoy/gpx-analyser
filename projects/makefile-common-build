@@ -6,7 +6,7 @@ DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),../$(dependency)/$(BIN_DI
 BUILD_DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),$(BIN_DIR)/$(dependency).dll)
 COPY_DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),$(dependency)_copy_local)
 DEPENDENCY_INCLUDES = $(foreach dependency,$(DEPENDENCIES),-I../$(dependency)/$(INCLUDE_DIR))
-DEPENDENCY_LIBS = $(foreach dependency,$(DEPENDENCIES),-L../$(dependency)/$(BIN_DIR) -l$(dependency))
+DEPENDENCY_LIBS = $(foreach dependency,$(DEPENDENCIES),-l../$(dependency)/$(BIN_DIR)/$(dependency).dll)
 
 all : build
 
@@ -26,8 +26,6 @@ $(OBJ_DIR) :
 $(BIN_DIR) :
 	@mkdir $(BIN_DIR)
 
-# TODO: if an dependency of the dependency changes but not the dependency itself then these
-# new files will not get copied across unless a make rebuild is called.
 $(BUILD_DEPENDENCY_DLLS) :
 	$(eval DEPENDENCY := $(patsubst $(BIN_DIR)/%.dll,%,$@))
 	@echo Build dependency: $(DEPENDENCY)
@@ -36,7 +34,7 @@ $(BUILD_DEPENDENCY_DLLS) :
 %_copy_local :
 	$(eval DEPENDENCY := $(patsubst %_copy_local,%,$@))
 	@echo Copying updated files from dependency $(DEPENDENCY) bin to target $(TARGET) bin
-	@cp -u ../$(DEPENDENCY)/$(BIN_DIR)/* $(BIN_DIR)/
+	@rsync -u ../$(DEPENDENCY)/$(BIN_DIR) $(BIN_DIR)
 
 clean :
 	@echo Deleting directory: $(OBJ_DIR)
