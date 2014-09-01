@@ -6,7 +6,7 @@ DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),../$(dependency)/$(BIN_DI
 BUILD_DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),$(BIN_DIR)/$(dependency).dll)
 COPY_DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),$(dependency)_copy_local)
 DEPENDENCY_INCLUDES = $(foreach dependency,$(DEPENDENCIES),-I../$(dependency)/$(INCLUDE_DIR))
-DEPENDENCY_LIBS = $(foreach dependency,$(DEPENDENCIES),-l../$(dependency)/$(BIN_DIR)/$(dependency).dll)
+DEPENDENCY_LIBS = $(foreach dependency,$(DEPENDENCIES),-L../$(dependency)/$(BIN_DIR) -l$(dependency))
 
 all : build
 
@@ -34,7 +34,7 @@ $(BUILD_DEPENDENCY_DLLS) :
 %_copy_local :
 	$(eval DEPENDENCY := $(patsubst %_copy_local,%,$@))
 	@echo Copying updated files from dependency $(DEPENDENCY) bin to target $(TARGET) bin
-	@rsync -u ../$(DEPENDENCY)/$(BIN_DIR) $(BIN_DIR)
+	@rsync -ur ../$(DEPENDENCY)/$(BIN_DIR)/ $(BIN_DIR)/
 
 clean :
 	@echo Deleting directory: $(OBJ_DIR)

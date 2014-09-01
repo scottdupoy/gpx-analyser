@@ -34,4 +34,4 @@ clean_local :
 	
 copy_local :
 	@echo Copying any updated $(TARGET) files to $(BIN_DIR)/
-	@rsync -u projects/$(TARGET)/$(BIN_DIR) $(BIN_DIR)
+	@rsync -ur projects/$(TARGET)/$(BIN_DIR)/ $(BIN_DIR)/
