@@ -15,10 +15,10 @@ rebuild : clean build
 build : $(OBJ_DIR) $(BIN_DIR) $(BUILD_DEPENDENCY_DLLS) $(COPY_DEPENDENCY_DLLS) $(BIN_DIR)/$(TARGET)
 
 $(BIN_DIR)/$(TARGET) : $(OBJ_FILES)
-	g++ $(LFLAGS) $(DEPENDENCY_LIBS) $(OBJ_FILES) -o $@
+	$(CXX) $(LFLAGS) $(DEPENDENCY_LIBS) $(OBJ_FILES) -o $@
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
-	g++ $(INCLUDES) $(DEPENDENCY_INCLUDES) $(CPPFLAGS) -c -o $@ $<
+	$(CXX) $(INCLUDES) $(DEPENDENCY_INCLUDES) $(CPPFLAGS) -c -o $@ $<
 
 $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)
