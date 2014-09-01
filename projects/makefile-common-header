@@ -5,6 +5,12 @@ OBJ_DIR = obj
 BIN_DIR = bin
 SRC_DIR = src
 INCLUDE_DIR = include
-DLL_SUFFIX = .so
+
+ifeq ($(OS),Windows_NT)
+DLL_PREFIX = 
+DLL_SUFFIX = .dll
+else
 DLL_PREFIX = lib
+DLL_SUFFIX = .so
+endif
 
