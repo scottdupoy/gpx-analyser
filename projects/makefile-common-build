@@ -2,8 +2,7 @@ CPP_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(CPP_FILES))
 DEPEND_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.d,$(CPP_FILES))
 
-DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),../$(dependency)/$(BIN_DIR)/$(dependency).dll)
-BUILD_DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),$(BIN_DIR)/$(dependency).dll)
+BUILD_DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),$(BIN_DIR)/$(DLL_PREFIX)$(dependency)$(DLL_SUFFIX))
 COPY_DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),$(dependency)_copy_local)
 DEPENDENCY_INCLUDES = $(foreach dependency,$(DEPENDENCIES),-I../$(dependency)/$(INCLUDE_DIR))
 DEPENDENCY_LIBS = $(foreach dependency,$(DEPENDENCIES),-L../$(dependency)/$(BIN_DIR) -l$(dependency))
@@ -15,7 +14,7 @@ rebuild : clean build
 build : $(OBJ_DIR) $(BIN_DIR) $(BUILD_DEPENDENCY_DLLS) $(COPY_DEPENDENCY_DLLS) $(BIN_DIR)/$(TARGET)
 
 $(BIN_DIR)/$(TARGET) : $(OBJ_FILES)
-	$(CXX) $(LFLAGS) $(DEPENDENCY_LIBS) $(OBJ_FILES) -o $@
+	$(CXX) $(OBJ_FILES) -o $@ $(LFLAGS) $(DEPENDENCY_LIBS)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	$(CXX) $(INCLUDES) $(DEPENDENCY_INCLUDES) $(CPPFLAGS) -c -o $@ $<
@@ -27,7 +26,7 @@ $(BIN_DIR) :
 	@mkdir $(BIN_DIR)
 
 $(BUILD_DEPENDENCY_DLLS) :
-	$(eval DEPENDENCY := $(patsubst $(BIN_DIR)/%.dll,%,$@))
+	$(eval DEPENDENCY := $(patsubst $(BIN_DIR)/$(DLL_PREFIX)%$(DLL_SUFFIX),%,$@))
 	@echo Build dependency: $(DEPENDENCY)
 	@make -C ../$(DEPENDENCY) build
 
