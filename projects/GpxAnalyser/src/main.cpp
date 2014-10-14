@@ -10,29 +10,31 @@ using namespace rapidjson;
 
 class Messaging
 {
-//private:
-public: // just for dev
+private:
+  std::string _host;
   std::string _user;
   std::string _password;
+public: // TODO: temp for dev
   Channel::ptr_t _connection;
 
 public:
-  Messaging(std::string& user, std::string& password);
+  Messaging(std::string& host, std::string& user, std::string& password);
   void Connect();
   void DeclareStructure();
   void PublishResult(std::string& result);
 };
 
-Messaging::Messaging(std::string& user, std::string& password)
- : _user(user)
+Messaging::Messaging(std::string& host, std::string& user, std::string& password)
+ : _host(host)
+ , _user(user)
  , _password(password)
 {
 }
 
 void Messaging::Connect()
 {
-  cout << "Messaging: creating channel: user: " << this->_user << ", password: " << this->_password << endl;
-  this->_connection = Channel::Create("localhost", 5672, this->_user, this->_password);
+  cout << "Messaging: creating channel: host: " << this->_host << ", user: " << this->_user << ", password: " << this->_password << endl;
+  this->_connection = Channel::Create(this->_host, 5672, this->_user, this->_password);
 }
 
 void Messaging::DeclareStructure()
@@ -67,16 +69,17 @@ void Messaging::PublishResult(std::string& result)
 
 int main(int argc, char* argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
-    cerr << "ERROR: Insufficient argument. Please provide RMQ credentials." << endl; 
+    cerr << "ERROR: Insufficient argument. Please provide RMQ host and credentials." << endl; 
     return -1;
   }
 
-  string user(argv[1]);
-  string password(argv[2]);
+  string host(argv[1]);
+  string user(argv[2]);
+  string password(argv[3]);
 
-  Messaging messaging(user, password);
+  Messaging messaging(host, user, password);
   messaging.Connect();
   messaging.DeclareStructure();
 
