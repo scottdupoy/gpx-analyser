@@ -9,6 +9,9 @@
 using namespace std;
 using namespace GpxAnalyser;
 
+// TODO: amongst (many) other things:
+//  - check for function const-ness that can be applied
+
 int main(int argc, char* argv[])
 {
   if (argc < 4)
@@ -27,7 +30,8 @@ int main(int argc, char* argv[])
 
   JsonParser jsonParser;
   Analyser analyser;
-  Consumer consumer(messaging, jsonParser, analyser);
+  Publisher publisher(messaging);
+  Consumer consumer(messaging, jsonParser, analyser, publisher);
 
   consumer.Start();
   
