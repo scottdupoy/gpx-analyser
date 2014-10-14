@@ -1,6 +1,6 @@
-TARGET = GpxAnalyserCli
+TARGET = GpxAnalyser
 TARGET_TYPE = exe
-PROJECTS = GpxAnalyserCore  	$(TARGET)
+PROJECTS = GpxAnalyserCore $(TARGET)
 
 BIN_DIR = bin
 

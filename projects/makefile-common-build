@@ -6,6 +6,7 @@ BUILD_DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),$(BIN_DIR)/$(DLL_PR
 COPY_DEPENDENCY_DLLS = $(foreach dependency,$(DEPENDENCIES),$(dependency)_copy_local)
 DEPENDENCY_INCLUDES = $(foreach dependency,$(DEPENDENCIES),-I../$(dependency)/$(INCLUDE_DIR))
 DEPENDENCY_LIBS = $(foreach dependency,$(DEPENDENCIES),-L../$(dependency)/$(BIN_DIR) -l$(dependency))
+EXTERNAL_DEPENDENCY_LIBS = $(foreach dependency,$(EXTERNAL_DEPENDENCIES),-l$(dependency))
 
 all : build
 
@@ -14,7 +15,7 @@ rebuild : clean build
 build : $(OBJ_DIR) $(BIN_DIR) $(BUILD_DEPENDENCY_DLLS) $(COPY_DEPENDENCY_DLLS) $(BIN_DIR)/$(TARGET)
 
 $(BIN_DIR)/$(TARGET) : $(OBJ_FILES)
-	$(CXX) $(OBJ_FILES) -o $@ $(LFLAGS) $(DEPENDENCY_LIBS)
+	$(CXX) $(OBJ_FILES) -o $@ $(LFLAGS) $(DEPENDENCY_LIBS) $(EXTERNAL_DEPENDENCY_LIBS)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	$(CXX) $(INCLUDES) $(DEPENDENCY_INCLUDES) $(CPPFLAGS) -c -o $@ $<

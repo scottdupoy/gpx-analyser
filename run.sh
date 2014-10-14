@@ -1,3 +1,3 @@
 #!/bin/bash
-LD_LIBRARY_PATH=./bin ./bin/GpxAnalyserCli.exe ./data/test-15km.gpx
+LD_LIBRARY_PATH=./bin:/usr/local/lib:/usr/local/lib/i386-linux-gnu ./bin/GpxAnalyser.exe $1 $2
 
