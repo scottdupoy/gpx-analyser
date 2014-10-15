@@ -8,8 +8,10 @@ class Point
 public:
   double Lat;
   double Lon;
-  int Time;
+  double Time;
   double Altitude;
+  double TrackPositionInKm;
 };
 
 }
+

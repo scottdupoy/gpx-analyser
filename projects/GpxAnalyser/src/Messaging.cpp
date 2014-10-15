@@ -60,7 +60,6 @@ void Messaging::PublishResult(std::string& result)
   cout << "Messaging: publishing result" << endl;
   BasicMessage::ptr_t message = BasicMessage::Create(result);
   message->ContentType("application/json");
-  cout << "  sending: " << message->Body().c_str() << endl;
   this->_connection->BasicPublish("run-ranker", "analysis-result", message);
 }
 

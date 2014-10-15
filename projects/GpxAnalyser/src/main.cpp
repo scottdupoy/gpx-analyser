@@ -11,6 +11,8 @@ using namespace GpxAnalyser;
 
 // TODO: amongst (many) other things:
 //  - check for function const-ness that can be applied
+//  - check for possible div by zeroes
+//  - abstract Delta list and running totals
 
 int main(int argc, char* argv[])
 {
@@ -29,8 +31,9 @@ int main(int argc, char* argv[])
   messaging.DeclareStructure();
 
   JsonParser jsonParser;
+  JsonEncoder jsonEncoder;
   Analyser analyser;
-  Publisher publisher(messaging);
+  Publisher publisher(messaging, jsonEncoder);
   Consumer consumer(messaging, jsonParser, analyser, publisher);
 
   consumer.Start();

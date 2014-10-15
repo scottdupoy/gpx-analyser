@@ -33,13 +33,42 @@ void Consumer::Start()
     cout << "  athleteId: " << request.AthleteId << endl;
     cout << "  activityId: " << request.ActivityId << endl;
 
-    Result result;
-    result.Guid = request.Guid;
+/*
+    for (list<Distance>::const_iterator it = request.Distances.begin(), end = request.Distances.end(); it != end; it++)
+    {
+      cout << "    distance: " << it->Name << " => " << it->Distance << endl;
+    }
 
-    // TODO: do analysis
+    for (list<Point>::const_iterator it = request.Points.begin(), end = request.Points.end(); it != end; it++)
+    {
+      cout << "    point: " << it->Lat << ", " << it->Lon << endl;
+    }
+*/
+
+    Result result = this->_analyser.Analyse(request);
+
+    cout << "Result:" << endl;
+    cout << "  Guid:       " << result.Guid << endl;
+    cout << "  AthleteId:  " << result.AthleteId << endl;
+    cout << "  ActivityId: " << result.ActivityId << endl;
+    cout << "    Activity.DistanceInKm: " << result.Activity.DistanceInKm << endl;
+    cout << "    Activity.Duration:     " << result.Activity.Duration << endl;
+    cout << "    Activity.Points.size:  " << result.Activity.Points.size() << endl;
+
+    list<BestEffort>::const_iterator beIt = result.BestEfforts.begin();
+    list<BestEffort>::const_iterator beEnd = result.BestEfforts.end();
+    for(; beIt != beEnd; beIt++)
+    {
+      const Point& start = beIt->BestEffort.Points.front();
+      cout << "  BestEffort:     " << beIt->EffortDistance.Name << endl;
+      cout << "    Duration:     " << beIt->BestEffort.Duration << endl;
+      cout << "    Start s:      " << start.Time << endl;
+      cout << "    Start pos k:  " << start.TrackPositionInKm << endl;
+    }
 
     this->_publisher.Publish(result);
   }
 }
 
 }
+

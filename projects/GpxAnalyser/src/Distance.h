@@ -9,6 +9,7 @@ namespace GpxAnalyser
 
 class Distance
 {
+public:
   int Id;
   double Distance;
   string Name;

@@ -7,17 +7,15 @@ using namespace std;
 namespace GpxAnalyser
 {
 
-Publisher::Publisher(Messaging& messaging)
-  : _messaging(messaging)
+Publisher::Publisher(Messaging& messaging, JsonEncoder& jsonEncoder)
+  : _messaging(messaging), _jsonEncoder(jsonEncoder)
 {
 }
 
 void Publisher::Publish(Result& result)
 {
-  // TODO: pack result into a JSON payload - for now just send guid.
-  // TODO: remove tempStart and tempEnd
-  string message = "{\"message\":\"" + result.Guid + "\"}";
-  this->_messaging.PublishResult(message);
+  string json = this->_jsonEncoder.Encode(result);
+  this->_messaging.PublishResult(json);
 }
 
 }
