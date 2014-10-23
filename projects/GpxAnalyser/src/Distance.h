@@ -11,7 +11,7 @@ class Distance
 {
 public:
   int Id;
-  double Distance;
+  double DistanceInKm;
   string Name;
   string Type;
 };

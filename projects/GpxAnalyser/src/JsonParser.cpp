@@ -19,6 +19,11 @@ Request JsonParser::ParseRequest(const string& message)
   request.Guid = document["guid"].GetString();
   request.AthleteId = document["athleteId"].GetInt();
   request.ActivityId = document["activityId"].GetInt64();
+  request.Name = document["name"].GetString();
+  request.MovingTime = document["movingTime"].GetDouble();
+  request.ElapsedTime = document["elapsedTime"].GetDouble();
+  request.StartDate = document["startDate"].GetString(); // keep as string, just passing through
+  request.DistanceInKm = document["distanceInKm"].GetDouble();
 
   // distances
   const Value& distances = document["distances"];
@@ -28,9 +33,9 @@ Request JsonParser::ParseRequest(const string& message)
     Distance distance;
     const Value& item = distances[i];
     distance.Id = item["id"].GetInt();
-    distance.Distance = item["distance"].GetDouble() / 1000.0; // m => km
+    distance.DistanceInKm = item["distanceInKm"].GetDouble();
     distance.Name = item["name"].GetString();
-    distance.Type = item["type"].GetType();
+    distance.Type = item["type"].GetString();
     request.Distances.push_back(distance);
   }
 

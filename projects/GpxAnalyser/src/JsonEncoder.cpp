@@ -73,7 +73,7 @@ void AddDistance(Writer<StringBuffer>& writer, const Distance& distance)
 {
   writer.StartObject();
   AddKvp(writer, "id", distance.Id);
-  AddKvp(writer, "distance", distance.Distance);
+  AddKvp(writer, "distanceInKm", distance.DistanceInKm);
   AddKvp(writer, "name", distance.Name);
   AddKvp(writer, "type", distance.Type);
   writer.EndObject();
@@ -111,6 +111,11 @@ string JsonEncoder::Encode(Result& result)
   AddKvp(writer, "guid", result.Guid);
   AddKvp(writer, "athleteId", result.AthleteId);
   AddKvp(writer, "activityId", result.ActivityId);
+  AddKvp(writer, "name", result.Name);
+  AddKvp(writer, "movingTime", result.MovingTime);
+  AddKvp(writer, "elapsedTime", result.ElapsedTime);
+  AddKvp(writer, "distanceInKm", result.DistanceInKm);
+  AddKvp(writer, "startDate", result.StartDate);
 
   writer.String("activity");
   AddEffort(writer, result.Activity);

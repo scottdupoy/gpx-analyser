@@ -17,6 +17,11 @@ public:
   string Guid;
   int AthleteId;
   long ActivityId;
+  string Name;
+  double MovingTime;
+  double ElapsedTime;
+  double DistanceInKm;
+  string StartDate;
   Effort Activity;
   list<BestEffort> BestEfforts;
 };

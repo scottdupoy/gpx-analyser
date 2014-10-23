@@ -17,6 +17,11 @@ Result Analyser::Analyse(const Request& request)
   result.Guid = request.Guid;
   result.AthleteId = request.AthleteId;
   result.ActivityId = request.ActivityId;
+  result.Name = request.Name;
+  result.MovingTime = request.MovingTime;
+  result.ElapsedTime = request.ElapsedTime;
+  result.StartDate = request.StartDate;
+  result.DistanceInKm = request.DistanceInKm;
 
   // walk over the points and build the activity
   const Point* previousPoint = NULL;
@@ -35,7 +40,7 @@ Result Analyser::Analyse(const Request& request)
   // TODO: if necessary this is the perfect place to pthread then rejoin before returning result
   for (list<Distance>::const_iterator it = request.Distances.begin(), end = request.Distances.end(); it != end; it++)
   {
-    if (it->Distance > result.Activity.DistanceInKm)
+    if (it->DistanceInKm > result.Activity.DistanceInKm)
     {
       continue;
     }
@@ -52,12 +57,12 @@ Result Analyser::Analyse(const Request& request)
 
 BestEffort Analyser::CalculateBestEffort(const Distance& distance, const list<Point>& points)
 {
-  cout << "calculating best effort for distance: " << distance.Name << " => " << distance.Distance << " km" << endl;
+  cout << "calculating best effort for distance: " << distance.Name << " => " << distance.DistanceInKm << " km" << endl;
 
   BestEffort bestEffort;
   bestEffort.EffortDistance = distance;
 
-  double target = distance.Distance;
+  double target = distance.DistanceInKm;
   bool inTargetWindow = false;
   list<Delta> deltas;
   double deltasRunningDistance = 0.0;
