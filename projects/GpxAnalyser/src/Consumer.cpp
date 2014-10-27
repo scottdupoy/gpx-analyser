@@ -29,9 +29,11 @@ void Consumer::Start()
     Request request = this->_jsonParser.ParseRequest(this->_messaging.Consume());
 
     cout << "received request:" << endl;
-    cout << "  guid: " << request.Guid << endl;
-    cout << "  athleteId: " << request.AthleteId << endl;
-    cout << "  activityId: " << request.ActivityId << endl;
+    cout << "  guid:         " << request.Guid << endl;
+    cout << "  athleteId:    " << request.AthleteId << endl;
+    cout << "  activityId:   " << request.ActivityId << endl;
+    cout << "  name:         " << request.Name << endl;
+    cout << "  distanceInKm: " << request.DistanceInKm << endl;
 
 /*
     for (list<Distance>::const_iterator it = request.Distances.begin(), end = request.Distances.end(); it != end; it++)

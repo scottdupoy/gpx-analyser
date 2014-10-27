@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "Analyser.h"
 #include "GeometryTools.h"
@@ -22,14 +23,23 @@ Result Analyser::Analyse(const Request& request)
   result.ElapsedTime = request.ElapsedTime;
   result.StartDate = request.StartDate;
   result.DistanceInKm = request.DistanceInKm;
+  result.Activity.DistanceInKm = request.DistanceInKm;
 
   // walk over the points and build the activity
   const Point* previousPoint = NULL;
+  double runningTotalDistance = 0.0;
+  double roundedTotalDistance = 0.0;
   for (list<Point>::const_iterator it = request.Points.begin(), end = request.Points.end(); it != end; it++)
   {
     if (previousPoint != NULL)
     {
-      result.Activity.DistanceInKm += GeometryTools::CalculateDistanceInKm(*previousPoint, *it);
+      //result.Activity.DistanceInKm += GeometryTools::CalculateDistanceInKm(*previousPoint, *it);
+      double stravaDelta = it->TrackPositionInKm - previousPoint->TrackPositionInKm;
+      double calculatedDelta = GeometryTools::CalculateDistanceInKm(*previousPoint, *it);
+      double roundedDelta = round(10000.0 * calculatedDelta) / 10000.0;
+      runningTotalDistance += calculatedDelta;
+      roundedTotalDistance += roundedDelta;
+      cout << "distance check: stravaDist: " << it->TrackPositionInKm << ", scottDist: " << runningTotalDistance << ", roundedDist: " << roundedTotalDistance << ", stravaDelta: " << stravaDelta << ", scottDelta " << calculatedDelta << ", roundedDelta: " << roundedDelta << endl;
     }
     result.Activity.Duration = it->Time;
     previousPoint = &(*it);
@@ -42,6 +52,7 @@ Result Analyser::Analyse(const Request& request)
   {
     if (it->DistanceInKm > result.Activity.DistanceInKm)
     {
+      cout << "skipping distance: " << it->DistanceInKm << " because greater than activity distance: " << result.Activity.DistanceInKm << endl;
       continue;
     }
 
