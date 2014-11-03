@@ -16,7 +16,6 @@ Request JsonParser::ParseRequest(const string& message)
 
   // top-level request details
   Request request;
-  request.Guid = document["guid"].GetString();
   request.AthleteId = document["athleteId"].GetInt();
   request.ActivityId = document["activityId"].GetInt64();
   request.Name = document["name"].GetString();

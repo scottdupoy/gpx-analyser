@@ -15,7 +15,6 @@ Result Analyser::Analyse(const Request& request)
 {
   Result result;
 
-  result.Guid = request.Guid;
   result.AthleteId = request.AthleteId;
   result.ActivityId = request.ActivityId;
   result.Name = request.Name;
@@ -39,7 +38,6 @@ Result Analyser::Analyse(const Request& request)
       double roundedDelta = round(10000.0 * calculatedDelta) / 10000.0;
       runningTotalDistance += calculatedDelta;
       roundedTotalDistance += roundedDelta;
-      cout << "distance check: stravaDist: " << it->TrackPositionInKm << ", scottDist: " << runningTotalDistance << ", roundedDist: " << roundedTotalDistance << ", stravaDelta: " << stravaDelta << ", scottDelta " << calculatedDelta << ", roundedDelta: " << roundedDelta << endl;
     }
     result.Activity.Duration = it->Time;
     previousPoint = &(*it);

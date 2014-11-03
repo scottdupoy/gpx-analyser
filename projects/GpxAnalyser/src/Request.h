@@ -14,7 +14,6 @@ namespace GpxAnalyser
 class Request
 {
 public:
-  string Guid;
   int AthleteId;
   long ActivityId;
   string Name;

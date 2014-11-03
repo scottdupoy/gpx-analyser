@@ -29,7 +29,6 @@ void Consumer::Start()
     Request request = this->_jsonParser.ParseRequest(this->_messaging.Consume());
 
     cout << "received request:" << endl;
-    cout << "  guid:         " << request.Guid << endl;
     cout << "  athleteId:    " << request.AthleteId << endl;
     cout << "  activityId:   " << request.ActivityId << endl;
     cout << "  name:         " << request.Name << endl;
@@ -50,7 +49,6 @@ void Consumer::Start()
     Result result = this->_analyser.Analyse(request);
 
     cout << "Result:" << endl;
-    cout << "  Guid:       " << result.Guid << endl;
     cout << "  AthleteId:  " << result.AthleteId << endl;
     cout << "  ActivityId: " << result.ActivityId << endl;
     cout << "    Activity.DistanceInKm: " << result.Activity.DistanceInKm << endl;

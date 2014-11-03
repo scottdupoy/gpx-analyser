@@ -108,7 +108,6 @@ string JsonEncoder::Encode(Result& result)
 
   writer.StartObject();
 
-  AddKvp(writer, "guid", result.Guid);
   AddKvp(writer, "athleteId", result.AthleteId);
   AddKvp(writer, "activityId", result.ActivityId);
   AddKvp(writer, "name", result.Name);
